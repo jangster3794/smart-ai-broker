@@ -6,10 +6,10 @@ Full-stack trading platform with FastAPI backend, React dashboard, automated pri
 
 ### Generate & Run
 ```bash
-# 1. Generate all components
-./generate_backend.sh
-./generate_scheduler.sh
-./generate_frontend.sh
+# 1. Generate all components - SKIP, this is already pushed
+# ./generate_backend.sh
+# ./generate_scheduler.sh
+# ./generate_frontend.sh
 
 # 2. Configure
 cd backend
