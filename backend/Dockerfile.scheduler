@@ -1,0 +1,28 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY scheduler/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY app/ ./app/
+COPY scheduler/ ./scheduler/
+
+# Create entrypoint script
+RUN echo '#!/bin/bash\n\
+set -e\n\
+echo "Waiting for backend and database..."\n\
+sleep 10\n\
+echo "Starting scheduler service..."\n\
+exec python -m scheduler.main' > /app/entrypoint.sh \
+    && chmod +x /app/entrypoint.sh
+
+ENTRYPOINT ["/app/entrypoint.sh"]
